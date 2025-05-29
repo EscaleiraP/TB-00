@@ -1,0 +1,12 @@
+{
+  "id": "1748053007278",
+  "title": "Test",
+  "artist": "Tester",
+  "cid": "bafyyd16khdm",
+  "txHash": "0xc5aa523b",
+  "file": "test.txt",
+  "mimetype": "text/plain",
+  "size": "0.01 KB",
+  "timestamp": "2025-05-24T02:16:47.278Z",
+  "certificateUrl": "http://localhost:4000/api/track/1748053007278/certificate"
+}

@@ -1,0 +1,39 @@
+services:
+  goibniu:
+    image: node:20-alpine
+    working_dir: /data
+    volumes:
+      - ./simple-server.js:/data/simple-server.js
+      - ./tracks.json:/data/tracks.json
+      - ./uploads:/data/uploads
+      - ./certificates:/data/certificates
+    command: sh -c "npm install express cors multer && node simple-server.js"
+    ports:
+      - "4000:4000"
+
+  vault-ui:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./vault-ui:/app
+    ports:
+      - "5173:5173"
+    command: >
+      sh -c "npm install &&
+             npx vite --host 0.0.0.0 --port 5173"
+    depends_on:
+      - goibniu
+
+  n8n:
+    image: n8nio/n8n:latest
+    ports:
+      - "5678:5678"
+    environment:
+      N8N_BASIC_AUTH_ACTIVE: "true"
+      N8N_BASIC_AUTH_USER: "vaultUser"
+      N8N_BASIC_AUTH_PASSWORD: "s3cr3tPass"
+      N8N_HOST: "0.0.0.0"
+      N8N_PORT: "5678"
+      NODE_ENV: "production"
+    volumes:
+      - ./n8n:/home/node/.n8n
